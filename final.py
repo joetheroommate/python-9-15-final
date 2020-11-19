@@ -13,10 +13,10 @@ from abc import ABC, abstractmethod
 
 
 
-class Window(QWidget):
+class Window(QWidget): 
 
     def __init__(self):
-        super().__inie__()
+        super().__init__()
         self.init_ui()
         self.showMaximized()
 
@@ -24,6 +24,7 @@ class Window(QWidget):
         layout = QGridLayout()
 
         # labels
+
 
 
 class PlayerDataHandler(ABC):
@@ -109,12 +110,50 @@ class TeamDataHandler(ABC):
     def replace_team_table(replacement_dict):
         current_folder = os.path.dirname(os.path.abspath(__file__))
         file_path = os.path.join(current_folder, 'player.csv')
-        write_player = open(file_path, 'w', newline='')
+        write_team = open(file_path, 'w', newline='')
         try:  
-            writer = csv.writer(write_player, delimiter=';')
+            writer = csv.writer(write_team, delimiter=';')
             for team_id in replacement_dict.keys():
                 writer.writerow([str(team_id), replacement_dict[team_id]['Team Name'], replacement_dict[team_id]['Division'], replacement_dict[team_id]['Sport']])
         except:
             pass
-        write_player.close()
+        write_team.close()
+
+
+
+class GameDataHandler(ABC):
+    def __init__(self):
+        pass
+
+    @abstractmethod
+    def read_game_table():
+        game_dict = {}
+        current_folder = os.path.dirname(os.path.abspath(__file__))
+        file_path = os.path.join(current_folder, 'player.csv')
+        read_game = open(file_path, 'r')
+        try:
+            for line in read_game:
+                row = line.split(';')
+                game_dict[row[0]] = {
+                    'Date Time' : row[1],
+                    'Home Team' : row[2],
+                    'Away Team' : row[3],
+                }
+            read_game.close()
+            return read_game
+        except:
+            pass
+        
+    @abstractmethod
+    def replace_game_table(replacement_dict):
+        current_folder = os.path.dirname(os.path.abspath(__file__))
+        file_path = os.path.join(current_folder, 'game.csv')
+        write_game = open(file_path, 'w', newline='')
+        try:  
+            writer = csv.writer(write_game, delimiter=';')
+            for game_id in replacement_dict.keys():
+                writer.writerow([str(game_id), replacement_dict[game_id]['Date Time'], replacement_dict[game_id]['Home Team'], replacement_dict[game_id]['Away Team']])
+        except:
+            pass
+        write_game.close()
 
