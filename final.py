@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QLineEdit
 from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtWidgets import QGridLayout
 from PyQt5.QtWidgets import QBoxLayout
+
 import sys
 from tabulate import tabulate
 import csv
