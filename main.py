@@ -15,19 +15,6 @@ from TeamDataHandler import TeamDataHandler
 from GameDataHandler import GameDataHandler
 
 
-# class Window(QWidget): 
-
-#     def __init__(self):
-#         super().__init__()
-#         self.init_ui()
-#         self.showMaximized()
-
-#     def init_ui(self):
-#         layout = QGridLayout()
-
-
-#         # labels
-
 class Interfaces(ABC):
     def __init__(self):
         pass
@@ -48,11 +35,11 @@ class Interfaces(ABC):
             Interfaces.main_menu()
             
         if int(menu_choice) == 1:
-            Interfaces.new_player_input()
+            Interfaces.player_add()
         elif int(menu_choice) == 2:
             Interfaces.player_login()
         elif int(menu_choice) == 3:
-            pass
+            sys.exit()
         else:
             print("Please choose one of the options")
             Interfaces.main_menu()
@@ -62,9 +49,9 @@ class Interfaces(ABC):
         working_dict = PlayerDataHandler.read_player_table()
         step = 'id'
         while step == 'id':
-            player_id = input("PLease enter your player ID: ")
+            active_player_id = input("PLease enter your player ID: ")
             try:
-                if player_id in working_dict.keys():
+                if active_player_id in working_dict.keys():
                     step = 'pw'
                 else:
                     step = 'id'
@@ -75,95 +62,141 @@ class Interfaces(ABC):
                 
         while step == 'pw':
             pw = input("Please enter your password: ")
-            if pw == working_dict[player_id]['Password']:
+            if pw == working_dict[active_player_id]['Password']:
                 step = 'home'
-                Interfaces.user_dashboard(player_id)
+                Interfaces.user_dashboard(active_player_id)
             else:
                 step = 'pw'
                 print("Your password was incorrect, please try again")
 
     @abstractmethod
-    def user_dashboard(active_player):
+    def user_dashboard(active_player_id):
         working_dict = PlayerDataHandler.read_player_table()
-        if working_dict['Role'] == 'Captain':
+        if working_dict[active_player_id]['Role'] == 'Captain':
             step = 'captain home'
         else:
             step = 'home'
         
         while step == 'home':
-            operation = [["Enter:  ", "For"], ["1", "Print My Info"], ["2", "Print Team Info"], ["3", "Print Schedule"], ["4", "Log Out"]]
+            operation = [
+                ["Enter:  ", "For"], 
+                ["1", "Print My Info"], 
+                ["2", "Print Team Info"], 
+                ["3", "Print Schedule"], 
+                ["4", "Log Out"]
+                ]
             menu_range = [1, 2, 3, 4]
             operation_choice = input(tabulate(operation))
             try:
-                if int(operation_choice) == 4:
-                    Interfaces.main_menu()
-                elif int(operation_choice) in menu_range:
-                    step = 'active session'
-                else:
-                    print("Please choose one of the options")
-                    step = 'home'
+                if int(operation_choice) in menu_range:
+                    if int(operation_choice) == 1:
+                        Interfaces.player_print(active_player_id)
+                    elif int(operation_choice) == 2:
+                        Interfaces.team_print(active_player_id)
+                    elif int(operation_choice) == 3:
+                        Interfaces.game_print(active_player_id)
+                    elif int(operation_choice) == 4:
+                        Interfaces.main_menu()
+                step = 'home'
             except:
                 print("Please choose one of the options")
                 step = 'home'
 
         while step == 'captain home':
-            operation = [["Enter:  ", "For"], ["1", "Print My Info"], ["2", "Add Player"], ["3", "Print Team Info"], ["4", "Add Team"], ["5", "Print Schedule"], ["6", "Add Game"], ["7", "Log Out"]]
+            operation = [
+                ["Enter:  ", "For"], 
+                ["1", "Print My Info"], 
+                ["2", "Add Player"], 
+                ["3", "Print Team Info"], 
+                ["4", "Add Team"], 
+                ["5", "Print Schedule"], 
+                ["6", "Add Game"], 
+                ["7", "Log Out"]
+                ]
             menu_range = [1, 2, 3, 4, 5, 6, 7]
             operation_choice = input(tabulate(operation))
             try:
-                if int(operation_choice) == 7:
-                    Interfaces.main_menu()
-                elif int(operation_choice) in menu_range:
-                    step = 'active session'
+                if int(operation_choice) in menu_range:
+                    if int(operation_choice) == 1:
+                        Interfaces.player_print(active_player_id)
+                    elif int(operation_choice) == 2:
+                        Interfaces.player_add()
+                    elif int(operation_choice) == 3:
+                        Interfaces.team_print(active_player_id)
+                    elif int(operation_choice) == 4:
+                        Interfaces.team_add()
+                    elif int(operation_choice) == 5:
+                        Interfaces.game_print(active_player_id)
+                    elif int(operation_choice) == 6:
+                        Interfaces.game_add()
+                    elif int(operation_choice) == 7:
+                        Interfaces.main_menu()
                 else:
                     print("Please choose one of the options")
-                    step = 'home'
+                    step = 'captain home'
+                step = 'captain home'
             except:
-                print("Please choose one of the options")
-                step = 'home'
+                print("Please choose 1 of the options")
+                step = 'captain home'
 
+    @abstractmethod
+    def player_print(active_player):
+        working_dict = PlayerDataHandler.read_player_table()
+        player = [ 
+            ["ID: ", active_player], 
+            ["Name: ", f"{working_dict[active_player]['First Name']} {working_dict[active_player]['Last Name']}" ], 
+            ["Team: ", working_dict[active_player]['Team'] ], 
+            ["Role: ", working_dict[active_player]['Role'] ], 
+            ["Position: ", working_dict[active_player]['Position'] ] 
+            ]
+        print(tabulate(player))
+        Interfaces.user_dashboard(active_player)
 
-        while step == 'active session':
-            account_types = [["Enter:  ", "For"], ["1", "Checking"], ["2", "Savings"]]
-            menu_range = [1, 2]
-            if operation_choice == 1:
-                print("Choose which account to withdraw from: ")
-            elif operation_choice == 2:
-                print("Choose which account to deposit into: ")
-            account_type_choice = input(tabulate(account_types))
-            try:
-                if int(account_type_choice) in menu_range:
-                    pass
-                    step = 'amount'
-                else:
-                    print("PLease choose one of the options")
-                    step = 'active session'
-            except:
-                print("PLease choose one of the options")
-                step = 'active session'
+    @abstractmethod
+    def team_print(active_player):
+        working_team_dict = TeamDataHandler.read_team_table()
+        working_player_dict = PlayerDataHandler.read_player_table()
+        working_team = working_player_dict[active_player]['Team']
+        team = [ 
+            ["Team: ", working_team], 
+            ["Captain: ", working_team_dict[working_team]['Captain'] ], 
+            ["Sport: ", working_team_dict[working_team]['Sport'] ] 
+            ]
+        print(tabulate(team))
+        Interfaces.user_dashboard(active_player)
 
-        while step == 'amount':
-            amount = input("Please enter the amount: ")
-            try:
-                amount = int(amount)
-                step = 'transaction'
-            except:
-                print("PLease center a valid amount: ")
-                step == 'amount'
+    # @abstractmethod
+    # def game_print(active_player):
+    #     working_dict = GameDataHandler.read_game_table()
+    #     next_game = 
+    #     schedule = [ [], [], [], ]
 
-        while step == 'transaction':
-            if int(operation_choice) == 1:
-                amount = (int(amount) * -1)
-                if int(account_type_choice) == 1:
-                    Bank.update_checking(active_player, amount)
-                elif int(account_type_choice) == 2:
-                    Bank.update_savings(active_player, amount)
-            elif int(operation_choice) == 2:
-                amount = int(amount)
-                if int(account_type_choice) == 1:
-                    Bank.update_checking(active_player, amount)
-                elif int(account_type_choice) == 2:
-                    Bank.update_savings(active_player, amount)
+    @abstractmethod
+    def player_add():
+        working_player_dict = PlayerDataHandler.read_player_table()
+        keys_list = []
+        for id in working_player_dict.keys():
+            keys_list.append(int(id))
+        keys_list.sort()
+        new_player_id = keys_list[-1] + 1
+        first_name = input("First name: ")
+        last_name = input("Last name: ")
+        password = input("Password: ")
+        email = input("Email: ")
+        team = input("Team: ")
+        position = input("Position: ")
+
+        working_player_dict[new_player_id] = {
+            'First Name' : first_name,
+            'Last Name' : last_name,
+            'Password' : password,
+            'Email' : email,
+            'Team' : team,
+            'Role' : 'Player',
+            'Position' : position
+        }
+        
+        PlayerDataHandler.replace_player_table(working_player_dict)
 
 
 
