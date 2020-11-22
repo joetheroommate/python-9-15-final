@@ -25,6 +25,7 @@ class Window(QWidget):
     def init_ui(self):
         layout = QGridLayout()
 
+
         # labels
 
 
