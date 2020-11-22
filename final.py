@@ -10,7 +10,9 @@ from tabulate import tabulate
 import csv
 import os
 from abc import ABC, abstractmethod
+from hello import helloworld
 
+helloworld()
 
 
 class Window(QWidget): 
@@ -32,7 +34,7 @@ class PlayerDataHandler(ABC):
         pass
 
     @abstractmethod
-    def read_player_table():
+    def read_player_table(self):
         player_dict = {}
         current_folder = os.path.dirname(os.path.abspath(__file__))
         file_path = os.path.join(current_folder, 'player.csv')
@@ -54,7 +56,7 @@ class PlayerDataHandler(ABC):
             pass
 
     @abstractmethod
-    def replace_player_table(replacement_dict):
+    def replace_player_table(self, replacement_dict):
         current_folder = os.path.dirname(os.path.abspath(__file__))
         file_path = os.path.join(current_folder, 'player.csv')
         write_player = open(file_path, 'w', newline='')
@@ -67,7 +69,7 @@ class PlayerDataHandler(ABC):
         write_player.close()
 
     @abstractmethod
-    def add_player(first_name, last_name, password, email, jersey_number, position, team):
+    def add_player(self, first_name, last_name, password, email, jersey_number, position, team):
         working_dict = PlayerDataHandler.read_player_table()
         new_player_id = int(working_dict.keys().max()) + 1
         working_dict[new_player_id] = {
@@ -88,7 +90,7 @@ class TeamDataHandler(ABC):
         pass
 
     @abstractmethod
-    def read_team_table():
+    def read_team_table(self):
         team_dict = {}
         current_folder = os.path.dirname(os.path.abspath(__file__))
         file_path = os.path.join(current_folder, 'player.csv')
@@ -107,7 +109,7 @@ class TeamDataHandler(ABC):
             pass
         
     @abstractmethod
-    def replace_team_table(replacement_dict):
+    def replace_team_table(self, replacement_dict):
         current_folder = os.path.dirname(os.path.abspath(__file__))
         file_path = os.path.join(current_folder, 'player.csv')
         write_team = open(file_path, 'w', newline='')
@@ -126,7 +128,7 @@ class GameDataHandler(ABC):
         pass
 
     @abstractmethod
-    def read_game_table():
+    def read_game_table(self):
         game_dict = {}
         current_folder = os.path.dirname(os.path.abspath(__file__))
         file_path = os.path.join(current_folder, 'player.csv')
@@ -145,7 +147,7 @@ class GameDataHandler(ABC):
             pass
         
     @abstractmethod
-    def replace_game_table(replacement_dict):
+    def replace_game_table(self, replacement_dict):
         current_folder = os.path.dirname(os.path.abspath(__file__))
         file_path = os.path.join(current_folder, 'game.csv')
         write_game = open(file_path, 'w', newline='')
