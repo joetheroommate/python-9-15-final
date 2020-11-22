@@ -4,11 +4,11 @@ from abc import ABC, abstractmethod
 
 
 class PlayerDataHandler(ABC):
-    def __init__(self):
+    def __init__():
         pass
 
     @abstractmethod
-    def read_player_table(self):
+    def read_player_table():
         player_dict = {}
         current_folder = os.path.dirname(os.path.abspath(__file__))
         file_path = os.path.join(current_folder, 'player.csv')
@@ -21,29 +21,30 @@ class PlayerDataHandler(ABC):
                     'Last Name' : row[2],
                     'Password' : row[3],
                     'Email' : row[4],
-                    'Jersey Number' : row[5],
-                    'Position' : row[6]
+                    'Team' : row[5],
+                    'Role' : row[6],
+                    'Position' : row[7]
                 }
             read_player.close()
-            return read_player
+            return player_dict
         except:
             pass
 
     @abstractmethod
-    def replace_player_table(self, replacement_dict):
+    def replace_player_table(replacement_dict):
         current_folder = os.path.dirname(os.path.abspath(__file__))
         file_path = os.path.join(current_folder, 'player.csv')
         write_player = open(file_path, 'w', newline='')
         try:  
             writer = csv.writer(write_player, delimiter=';')
             for player_id in replacement_dict.keys():
-                writer.writerow([str(player_id), replacement_dict[player_id]['First Name'], replacement_dict[player_id]['Last Name'], replacement_dict[player_id]['Password'], replacement_dict[player_id]['Email'], replacement_dict[player_id]['Jersey Number'], replacement_dict[player_id]['Position'], replacement_dict[player_id]['Team']])
+                writer.writerow([str(player_id), replacement_dict[player_id]['First Name'], replacement_dict[player_id]['Last Name'], replacement_dict[player_id]['Password'], replacement_dict[player_id]['Email'], replacement_dict[player_id]['Team'], replacement_dict[player_id]['Role'], replacement_dict[player_id]['Position']])
         except:
             pass
         write_player.close()
 
     @abstractmethod
-    def add_player(self, first_name, last_name, password, email, jersey_number, position, team):
+    def add_player(first_name, last_name, password, email, jersey_number, position, team):
         working_dict = PlayerDataHandler.read_player_table()
         new_player_id = int(working_dict.keys().max()) + 1
         working_dict[new_player_id] = {
@@ -56,4 +57,11 @@ class PlayerDataHandler(ABC):
             'Team' : team
         }
         PlayerDataHandler.replace_player_table(working_dict)
+
+    @abstractmethod
+    def print_player(player_id):
         
+        
+
+# x = PlayerDataHandler.read_player_table()
+# print(x)

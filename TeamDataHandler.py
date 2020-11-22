@@ -1,4 +1,6 @@
-
+import csv
+import os
+from abc import ABC, abstractmethod
 
 
 class TeamDataHandler(ABC):
@@ -9,7 +11,7 @@ class TeamDataHandler(ABC):
     def read_team_table(self):
         team_dict = {}
         current_folder = os.path.dirname(os.path.abspath(__file__))
-        file_path = os.path.join(current_folder, 'player.csv')
+        file_path = os.path.join(current_folder, 'team.csv')
         read_team = open(file_path, 'r')
         try:
             for line in read_team:
@@ -20,14 +22,14 @@ class TeamDataHandler(ABC):
                     'Sport' : row[3],
                 }
             read_team.close()
-            return read_team
+            return team_dict
         except:
             pass
         
     @abstractmethod
     def replace_team_table(self, replacement_dict):
         current_folder = os.path.dirname(os.path.abspath(__file__))
-        file_path = os.path.join(current_folder, 'player.csv')
+        file_path = os.path.join(current_folder, 'team.csv')
         write_team = open(file_path, 'w', newline='')
         try:  
             writer = csv.writer(write_team, delimiter=';')
