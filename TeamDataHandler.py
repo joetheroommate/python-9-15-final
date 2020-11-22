@@ -26,14 +26,21 @@ class TeamDataHandler(ABC):
             pass
         
     @abstractmethod
-    def replace_team_table(self, replacement_dict):
+    def replace_team_table(replacement_dict):
         current_folder = os.path.dirname(os.path.abspath(__file__))
         file_path = os.path.join(current_folder, 'team.csv')
         write_team = open(file_path, 'w', newline='')
         try:  
             writer = csv.writer(write_team, delimiter=';')
-            for team_id in replacement_dict.keys():
-                writer.writerow([str(team_id), replacement_dict[team_id]['Team Name'], replacement_dict[team_id]['Captain'], replacement_dict[team_id]['Sport']])
+            for team in replacement_dict.keys():
+                writer.writerow(
+                    [
+                    team, 
+                    replacement_dict[team]['Captain'], 
+                    replacement_dict[team]['Sport'],
+                    0
+                    ]
+                    )
         except:
             pass
         write_team.close()

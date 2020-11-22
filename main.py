@@ -21,7 +21,13 @@ class Interfaces(ABC):
 
     @abstractmethod
     def main_menu():
-        admin_menu = [["Enter:  ", "For"], ["1", "Create Player Account"], ["2", "Login"], ["3", "Exit"]]
+        admin_menu = [
+            ["Enter:  ", "For"], 
+            ["1", "Create Player Account"], 
+            ["2", "Login"], 
+            ["3", "Exit"]
+            ]
+
         menu_range = [1, 2, 3]
         menu_choice = input(tabulate(admin_menu))
         try:
@@ -89,18 +95,24 @@ class Interfaces(ABC):
             operation_choice = input(tabulate(operation))
             try:
                 if int(operation_choice) in menu_range:
-                    if int(operation_choice) == 1:
-                        Interfaces.player_print(active_player_id)
-                    elif int(operation_choice) == 2:
-                        Interfaces.team_print(active_player_id)
-                    elif int(operation_choice) == 3:
-                        Interfaces.game_print(active_player_id)
-                    elif int(operation_choice) == 4:
-                        Interfaces.main_menu()
-                step = 'home'
+                    pass
+                else:
+                    print("Please choose 1 of the options")
+                    Interfaces.main_menu()
             except:
-                print("Please choose one of the options")
+                print("Please choose a of the options")
                 step = 'home'
+            
+            if int(operation_choice) == 1:
+                Interfaces.player_print(active_player_id)
+            elif int(operation_choice) == 2:
+                Interfaces.team_print(active_player_id)
+            elif int(operation_choice) == 3:
+                Interfaces.game_print(active_player_id)
+            elif int(operation_choice) == 4:
+                sys.exit()
+            step = 'home'
+
 
         while step == 'captain home':
             operation = [
@@ -117,27 +129,30 @@ class Interfaces(ABC):
             operation_choice = input(tabulate(operation))
             try:
                 if int(operation_choice) in menu_range:
-                    if int(operation_choice) == 1:
-                        Interfaces.player_print(active_player_id)
-                    elif int(operation_choice) == 2:
-                        Interfaces.player_add()
-                    elif int(operation_choice) == 3:
-                        Interfaces.team_print(active_player_id)
-                    elif int(operation_choice) == 4:
-                        Interfaces.team_add()
-                    elif int(operation_choice) == 5:
-                        Interfaces.game_print(active_player_id)
-                    elif int(operation_choice) == 6:
-                        Interfaces.game_add()
-                    elif int(operation_choice) == 7:
-                        Interfaces.main_menu()
+                    pass
                 else:
                     print("Please choose one of the options")
                     step = 'captain home'
-                step = 'captain home'
             except:
                 print("Please choose 1 of the options")
                 step = 'captain home'
+                    
+            if int(operation_choice) == 1:
+                Interfaces.player_print(active_player_id)
+            elif int(operation_choice) == 2:
+                Interfaces.player_add()
+            elif int(operation_choice) == 3:
+                Interfaces.team_print(active_player_id)
+            elif int(operation_choice) == 4:
+                Interfaces.team_add()
+            elif int(operation_choice) == 5:
+                Interfaces.game_print(active_player_id)
+            elif int(operation_choice) == 6:
+                Interfaces.game_add()
+            elif int(operation_choice) == 7:
+                sys.exit()
+            step = 'captain home'
+                
 
     @abstractmethod
     def player_print(active_player):
@@ -195,10 +210,42 @@ class Interfaces(ABC):
             'Role' : 'Player',
             'Position' : position
         }
-        
         PlayerDataHandler.replace_player_table(working_player_dict)
 
+    @abstractmethod
+    def team_add():
+        working_team_dict = TeamDataHandler.read_team_table()
+        team_name = input("Team Name: ")
+        captain = input("Captain Name: ")
+        sport = input("Sport: ")
 
+        working_team_dict[team_name] = {
+            'Captain' : captain,
+            'Sport' : sport
+        }
+        TeamDataHandler.replace_team_table(working_team_dict)
+    
+    @abstractmethod
+    def game_add():
+        print('test 2')
+        working_game_dict = GameDataHandler.read_game_table()
+        keys_list = []
+        for id in working_game_dict.keys():
+            keys_list.append(int(id))
+        keys_list.sort()
+        new_game_id = keys_list[-1] + 1
+        game_date = input("Date: ")
+        game_time = input("Time: ")
+        home_team = input("Home Team: ")
+        away_team = input("Away Team: ")
+
+        working_game_dict[new_game_id] = {
+            'Date' : game_date,
+            'Time' : game_time,
+            'Home Team' : home_team,
+            'Away Team' : away_team
+        }
+        GameDataHandler.replace_game_table(working_game_dict)
 
 def main():
     Interfaces.main_menu()
