@@ -218,6 +218,7 @@ class Interfaces(ABC):
             'Position' : position
         }
         PlayerDataHandler.replace_player_table(working_player_dict)
+        Interfaces.main_menu()
 
     @abstractmethod
     def team_add():
