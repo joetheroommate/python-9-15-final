@@ -20,12 +20,12 @@ GA Python 9-15-2020 Final Project
 
 ## Dashboard Features:
 
-### Team View:
-- Show the Team Name, Captains, Jersey, List of Players,
+### Team Info:
+- Show the Team Name, Captain, Sport
 ### Player View:
-- Show the Name, number, position
+- Show the Name, Team, Role, Position
 ### Schedule View:
-- Show the next 3 games for that player or team
+- Shows all games with date, time, and opponent for the active user's team
 
 ##
 
