@@ -5,15 +5,18 @@ GA Python 9-15-2020 Final Project
 ## Activities:
 
 ### Players can
-- See which team they are one
-- See upcoming events for their team
-- RSVP for games
-### Admins can
-- Do everything attendees can do
+- Add themselves
+- See their player info
+- See their team's info
+- See their team's schedule
+
+### Captains can
+- Do everything players can do
+- Add new players
 - Create and edit games
 - Create and edit teams
 
-
+##
 
 ## Dashboard Features:
 
@@ -23,9 +26,20 @@ GA Python 9-15-2020 Final Project
 - Show the Name, number, position
 ### Schedule View:
 - Show the next 3 games for that player or team
- 
 
- 
+##
+
+## Code Debt:
+
+### Basic UI Enhancements
+- Upgrade from terminal to browser
+- Validate formatting of various inputs like passwords, dates
+- Use interface selections to choose teams instead of typing 
+### Application Enhancements
+- Work from database instead of csv
+- Sort schedule and only show future games in chronological order
+
+##
 
 ## Roadmap Ideas:
 
