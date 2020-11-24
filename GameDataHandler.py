@@ -9,7 +9,6 @@ class GameDataHandler(ABC):
 
     @abstractmethod
     def read_game_table():
-        print('test')
         game_dict = {}
         current_folder = os.path.dirname(os.path.abspath(__file__))
         file_path = os.path.join(current_folder, 'game.csv')

@@ -1,5 +1,7 @@
-100002;a;a;a;a;a;Player;a
-100003;b;b;b;b;b;Captain;b
-100004;c;c;c;c;c;Player;c
-100005;d;d;d;d;d;Player;d
-100006;e;e;e;e;ee;Player;e
+100002;a;a;a;a;Kings;Player;a;0
+100003;Joe;Perna;b;b;Polar Beers;Captain;b;0
+100004;c;c;c;c;Kings;Player;c;0
+100005;d;d;d;d;Blitz;Player;d;0
+100006;e;e;e;e;Blitz;Player;e;0
+100007;Mike;Smith;c;a@b.com;Polar Beers;Player;D;0
+100008;a;a;a;a;a;Player;a;0

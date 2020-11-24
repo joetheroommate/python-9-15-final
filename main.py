@@ -1,10 +1,3 @@
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import QLabel
-from PyQt5.QtWidgets import QWidget
-from PyQt5.QtWidgets import QLineEdit
-from PyQt5.QtWidgets import QPushButton
-from PyQt5.QtWidgets import QGridLayout
-from PyQt5.QtWidgets import QBoxLayout
 import sys
 from tabulate import tabulate
 import csv
@@ -153,7 +146,6 @@ class Interfaces(ABC):
                 sys.exit()
             step = 'captain home'
                 
-
     @abstractmethod
     def player_print(active_player):
         working_dict = PlayerDataHandler.read_player_table()
@@ -180,11 +172,26 @@ class Interfaces(ABC):
         print(tabulate(team))
         Interfaces.user_dashboard(active_player)
 
-    # @abstractmethod
-    # def game_print(active_player):
-    #     working_dict = GameDataHandler.read_game_table()
-    #     next_game = 
-    #     schedule = [ [], [], [], ]
+    @abstractmethod
+    def game_print(active_player):
+        working_player_dict = PlayerDataHandler.read_player_table()
+        working_game_dict = GameDataHandler.read_game_table()
+        working_team = working_player_dict[active_player]['Team']
+        team_games_list = []
+
+        for game in working_game_dict:
+            if working_game_dict[game]['Home Team'] == working_team or working_game_dict[game]['Away Team'] == working_team:
+                team_games_list.append(game)
+
+        schedule = [
+                    ["Home Team", "Away Team", "Date", "Time"],
+                    ['','','','']
+                ]
+
+        for game in team_games_list:
+            schedule.append([working_game_dict[game]['Home Team'], working_game_dict[game]['Away Team'], working_game_dict[game]['Date'], working_game_dict[game]['Time']])
+
+        print(tabulate(schedule))
 
     @abstractmethod
     def player_add():
