@@ -1,6 +1,11 @@
 # python-9-15-final
 GA Python 9-15-2020 Final Project
 
+## Concept:
+- Application to add and display the players, teams, and games for a league.  
+- Players are on teams and teams have games.
+- Games include both teams and have the date and time so a schedule can be built
+
 
 ## Activities:
 
